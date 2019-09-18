@@ -57,7 +57,7 @@ from detectron.utils.io import cache_url
 
 logger = logging.getLogger(__name__)
 
-__C = AttrDict()
+__C = AttrDict()  # # create a dict
 # Consumers can get config by:
 #   from detectron.core.config import cfg
 cfg = __C

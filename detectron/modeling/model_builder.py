@@ -131,7 +131,7 @@ def get_func(func_name):
     """
     if func_name == '':
         return None
-    new_func_name = name_compat.get_new_name(func_name)
+    new_func_name = name_compat.get_new_name(func_name)  # # also is "generalized_rcnn".
     if new_func_name != func_name:
         logger.warn(
             'Remapping old function name: {} -> {}'.
@@ -142,11 +142,11 @@ def get_func(func_name):
         parts = func_name.split('.')
         # Refers to a function in this module
         if len(parts) == 1:
-            return globals()[parts[0]]
+            return globals()[parts[0]]  # {"generalized_rcnn": value} or a function object.
         # Otherwise, assume we're referencing a module under modeling
         module_name = 'detectron.modeling.' + '.'.join(parts[:-1])
         module = importlib.import_module(module_name)
-        return getattr(module, parts[-1])
+        return getattr(module, parts[-1])  # #
     except Exception:
         logger.error('Failed to find function: {}'.format(func_name))
         raise

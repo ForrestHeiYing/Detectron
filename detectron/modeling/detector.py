@@ -44,9 +44,14 @@ class DetectionModelHelper(cnn.CNNModelHelper):
     def __init__(self, **kwargs):
         # Handle args specific to the DetectionModelHelper, others pass through
         # to CNNModelHelper
-        self.train = kwargs.get('train', False)
+        self.train = kwargs.get('train', False)  # # kwargs is a dict, if 'train' is not in it, geting the default value
         self.num_classes = kwargs.get('num_classes', -1)
         assert self.num_classes > 0, 'num_classes must be > 0'
+
+        # # why delete,
+        """
+        Already assigned to the current class, no need to assign a value to the parent class.
+        """
         for k in ('train', 'num_classes'):
             if k in kwargs:
                 del kwargs[k]

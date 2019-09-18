@@ -59,7 +59,7 @@ def train_model():
     training_stats = TrainingStats(model)
     CHECKPOINT_PERIOD = int(cfg.TRAIN.SNAPSHOT_ITERS / cfg.NUM_GPUS)
 
-    for cur_iter in range(start_iter, cfg.SOLVER.MAX_ITER):
+    for cur_iter in range(start_iter, cfg.SOLVER.MAX_ITER):  # # training iteration.
         if model.roi_data_loader.has_stopped():
             handle_critical_error(model, 'roi_data_loader failed')
         training_stats.IterTic()
@@ -107,8 +107,10 @@ def create_model():
     logger = logging.getLogger(__name__)
     start_iter = 0
     checkpoints = {}
-    output_dir = get_output_dir(cfg.TRAIN.DATASETS, training=True)
-    weights_file = cfg.TRAIN.WEIGHTS
+    output_dir = get_output_dir(cfg.TRAIN.DATASETS, training=True)  # # get save dir
+    weights_file = cfg.TRAIN.WEIGHTS  # # get pre trained model file.
+
+    # # resume model
     if cfg.TRAIN.AUTO_RESUME:
         # Check for the final model (indicates training already finished)
         final_path = os.path.join(output_dir, 'model_final.pkl')
@@ -144,7 +146,7 @@ def create_model():
     logger.info('Building model: {}'.format(cfg.MODEL.TYPE))
     model = model_builder.create(cfg.MODEL.TYPE, train=True)
     if cfg.MEMONGER:
-        optimize_memory(model)
+        optimize_memory(model)  # # reduce memory usage.
     # Performs random weight initialization as defined by the model
     workspace.RunNetOnce(model.param_init_net)
     return model, weights_file, start_iter, checkpoints, output_dir
